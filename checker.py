@@ -1,5 +1,5 @@
 import os
-import subprocess
+from pythonping import ping
 from pathlib import Path
 from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, Update,
                       ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton)
@@ -16,7 +16,7 @@ IP = os.getenv("IP")
 
 def ping_test(host):
     command = ['ping', '-c', '1', host]
-    ping_test = subprocess.call(f'ping /n 2 /w 1000 {host}')
+    ping_test = ping('127.0.0.1', verbose=True, size=1)
     # ping_test = os.system("ping -c 2 " + host) 
     # logger.info(ping_test)
     return ping_test      #Ping host n times
