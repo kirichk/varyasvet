@@ -14,7 +14,7 @@ IP = os.getenv("IP")
 
 
 def ping_test(host):
-    ping_test = os.system("ping -c 1 " + host) 
+    ping_test = os.system("ping -c 2 " + host) 
     logger.info(ping_test)
     return ping_test      #Ping host n times
                
