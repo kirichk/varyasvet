@@ -16,7 +16,7 @@ IP = os.getenv("IP")
 
 def ping_test(host):
     command = ['ping', '-c', '1', host]
-    ping_test = subprocess.call(command)
+    ping_test = subprocess.check_output(command)
     # ping_test = os.system("ping -c 2 " + host) 
     # logger.info(ping_test)
     return ping_test      #Ping host n times
