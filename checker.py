@@ -1,4 +1,5 @@
 import os
+import subprocess
 from pathlib import Path
 from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, Update,
                       ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton)
@@ -14,8 +15,10 @@ IP = os.getenv("IP")
 
 
 def ping_test(host):
-    ping_test = os.system("ping -c 2 " + host) 
-    logger.info(ping_test)
+    command = ['ping', '-c', '1', host]
+    ping_test = subprocess.call(command)
+    # ping_test = os.system("ping -c 2 " + host) 
+    # logger.info(ping_test)
     return ping_test      #Ping host n times
                
 
