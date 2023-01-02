@@ -15,12 +15,9 @@ IP = os.getenv("IP")
 
 
 def ping_test(host):
-    try:
-        ping_test = ping(host, verbose=True, size=1)
-        logger.info(ping_test)
-        return True
-    except:
-        return False
+    ping_test = ping(host, verbose=True, size=1)
+    logger.info(ping_test)
+    return ping_test
                
 
 def greetings_handler(update: Update, context: CallbackContext):
@@ -46,7 +43,7 @@ def check_handler(update: Update, context: CallbackContext):
     ]
     inline_buttons = InlineKeyboardMarkup(inline_keyboard=inline_keyboard)
     result = ping_test(IP)
-    if result:
+    if "Not Reachable" not in result:
         context.bot.send_sticker(chat_id=update.callback_query.message.chat.id,
                                 sticker='CAACAgIAAxkBAAMFY69KYksBvI17ZEdBcYj8X2yij84AAsEdAAJDwjlJEyPqj8svtrUtBA')
         context.bot.send_message(chat_id=update.callback_query.message.chat.id,
