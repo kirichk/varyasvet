@@ -15,11 +15,12 @@ IP = os.getenv("IP")
 
 
 def ping_test(host):
-    command = ['ping', '-c', '1', host]
-    ping_test = ping('127.0.0.1', verbose=True, size=1)
-    # ping_test = os.system("ping -c 2 " + host) 
-    logger.info(ping_test)
-    return ping_test      #Ping host n times
+    try:
+        ping_test = ping(host, verbose=True, size=1)
+        logger.info(ping_test)
+        return True
+    except:
+        return False
                
 
 def greetings_handler(update: Update, context: CallbackContext):
@@ -45,7 +46,7 @@ def check_handler(update: Update, context: CallbackContext):
     ]
     inline_buttons = InlineKeyboardMarkup(inline_keyboard=inline_keyboard)
     result = ping_test(IP)
-    if result == 0:
+    if result:
         context.bot.send_sticker(chat_id=update.callback_query.message.chat.id,
                                 sticker='CAACAgIAAxkBAAMFY69KYksBvI17ZEdBcYj8X2yij84AAsEdAAJDwjlJEyPqj8svtrUtBA')
         context.bot.send_message(chat_id=update.callback_query.message.chat.id,
@@ -60,3 +61,6 @@ def check_handler(update: Update, context: CallbackContext):
                                 reply_markup=inline_buttons)
         logger.info('Not Reachable')
     return ConversationHandler.END                            #Else, it's not reachable
+
+if __name__ == '__main__':
+    ping_test('85.209.45.169')
