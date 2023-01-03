@@ -1,4 +1,5 @@
 import os
+import subprocess
 from pythonping import ping
 from pathlib import Path
 from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, Update,
@@ -15,9 +16,15 @@ IP = os.getenv("IP")
 
 
 def ping_test(host):
-    ping_test = ping(host, verbose=True, size=1)
-    logger.info(ping_test)
-    return ping_test
+    process = subprocess.run('ping -c 1 '+ host, stdout=subprocess.PIPE, shell=True)
+    logger.info(process)
+    if process.returncode == 0:
+        return True
+    else:
+        return False
+    # ping_test = ping(host, verbose=True, size=1)
+    # logger.info(ping_test)
+    # return ping_test
                
 
 def greetings_handler(update: Update, context: CallbackContext):
@@ -43,7 +50,7 @@ def check_handler(update: Update, context: CallbackContext):
     ]
     inline_buttons = InlineKeyboardMarkup(inline_keyboard=inline_keyboard)
     result = ping_test(IP)
-    if "Not Reachable" not in result:
+    if result:
         context.bot.send_sticker(chat_id=update.callback_query.message.chat.id,
                                 sticker='CAACAgIAAxkBAAMFY69KYksBvI17ZEdBcYj8X2yij84AAsEdAAJDwjlJEyPqj8svtrUtBA')
         context.bot.send_message(chat_id=update.callback_query.message.chat.id,
